@@ -2,6 +2,21 @@
 import csv
 ##----------------------------------------------------------------------------------------------------------------------
 ##----------------------------------------------------------------------------------------------------------------------
+##clase STOP
+
+class Stop:
+    ##iniciamos variables
+    def __init__(self, id, name, description, lat, lon):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.lat = lat
+        self.lon = lon
+    ##Convertimos a String
+    def to_string(self):
+        return "Id: "+self.id + " , Name:" +self.name +" , Description: " + self.description +" , Lat: "+str(self.lat) + " , Lon: " + str(self.lon)
+
+
 ##fichero1,fichero2->read_data()->diccionario
 def read_data(fichero1, fichero2):
     ##Declaramos el diccionario vacio
@@ -79,23 +94,29 @@ def search_by_lon(longitud_a_buscar,diccionario):
             raise ValueError("No se ha encontrado la clave")
 
 
-
+def convert_to_object(clave, diccionrio):
+    element = diccionrio[clave]
+    return Stop(element['id'],element['name'],element['description'], element['lat'], element['lon'])
 
 ##--------------------------------MAIN-----------------------------------------------------
 ###############################################################################
 if __name__ == "__main__":
-    ##Declaramos los archivos a leer
     file1 = "stops_data.csv"
     file2 = "stops.csv"
-    ##Leemos los archivos
+
     diccionario = read_data(file1,file2)
     try:
-        ##PRUEBAS SEARCH BY LON
-        lon = 728257.03
+        ##FUNCION GET NAME DESCRIPTION
+        ##get_name_description('1080', diccionario)
+        ##get_name_description('10800', diccionario)
+
+
+        ##FUNCION SEARCH BY LON
+        lon = 725915.428
+        id = search_by_lon("725915.428", diccionario)
         id = search_by_lon(lon, diccionario)
+        
+
         print("Id encontrada: "+id)
-        ##PRUEBAS GET NAME DESCRIPTION
-        get_name_description('1080', diccionario)
-        get_name_description('100800', diccionario)
     except ValueError as err:
         print("Se ha producido un error:"+str(err))
